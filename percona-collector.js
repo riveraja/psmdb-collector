@@ -203,7 +203,7 @@ percona_collector.clusterWideInfo = function() {
     }
     var shardedCollCount = db.getSiblingDB('config').chunks.aggregate({$group:{_id:"$ns",count:{$sum:1}}}).toArray().length;
     
-
+    // TODO
     print("Database count: " + dbList.length);
     print("Collection count: " + collCount);
     print("Sharded Collections: " + shardedCollCount);
