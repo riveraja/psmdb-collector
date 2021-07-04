@@ -14,5 +14,5 @@ RUN apt-get update && \
     curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh | bash - && \
     apt-get install -y nodejs npm
 WORKDIR /root/psmdb-collector/
-RUN npm install
+# RUN npm install
 CMD ["bash"]
