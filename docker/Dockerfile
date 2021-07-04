@@ -14,7 +14,7 @@ RUN apt-get update && \
     # git clone https://github.com/riveraja/psmdb-collector
     # curl -sL https://deb.nodesource.com/setup_14.x -o nodesource_setup.sh | bash - && \
     # apt-get install -y nodejs npm
-COPY ./percona-collector.js /root/psmdb-collector/
+COPY ../percona-collector.js /root/psmdb-collector/
 WORKDIR /root/psmdb-collector/
 # RUN npm install
 CMD ["bash"]
