@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 LABEL author="Jericho Rivera"
 LABEL version="1.0"
 
-ENV TZ=Europe/London
+ENV TZ=UTC
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 WORKDIR /root
 RUN apt-get update && \
