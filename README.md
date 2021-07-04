@@ -81,3 +81,23 @@ You can opt-out by running the disableTelemetry() command.
 Loading file: percona-collector.js
 [direct: mongos] test>
 ```
+
+### Available functions
+---
+percona_collector.collectCurrentOp(count=1,interval=1000)
+percona_collector.collectServerStatus(count=1,interval=1000)
+percona_collector.getCurrentOp
+percona_collector.getDbReplicationInfo
+percona_collector.getRsReplicationInfo
+percona_collector.getRsSecondaryReplicationInfo
+percona_collector.getServerStatus
+percona_collector.hostInfo
+percona_collector.parameterInfo
+percona_collector.pbmCollector
+percona_collector.replicaSetInfo
+percona_collector.replicationConfiguration
+percona_collector.shardInfo
+percona_collector.startupOptions
+percona_collector.clusterWideInfo [TODO]
+
+Generated files will be stored in the host volume mount path. Ensure that docker can read/write to this directory in the host path.
