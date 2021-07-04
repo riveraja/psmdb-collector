@@ -1,2 +1,4 @@
 node_modules/
 collections.md
+package.json
+package-lock.json
