@@ -12,7 +12,7 @@ function getDatabases() {
 
 function writeMe(filename='',output='',my_flag='') {
     outFile=("/tmp/pt/collected/" + filename);
-    fs.writeFile(outFile, (output), {flag: my_flag}, function(err) {
+    fs.writeFile(outFile, JSON.stringify(output), {flag: my_flag}, function(err) {
         if(err) print('error', err);
     });
 }
@@ -26,9 +26,7 @@ percona_collector.collectServerStatus = function(count=1,interval=1000) {
     for (let step =0; step < count; step++) {
         var res = db.serverStatus();
         output = JSON.stringify(res) + "\n";
-        fs.writeFile("/tmp/pt/collected/serverStatusAll.json", (output), {flag: 'a'}, function(err) {
-            if(err) print('error', err);
-        });
+        writeMe(filename='serverStatusAll.json',output=output,my_flag='a');
         sleep(interval);
     }
     print("Continuous collection done.")
@@ -43,9 +41,7 @@ percona_collector.collectCurrentOp = function(count=1,interval=1000) {
     for (let step =0; step < count; step++) {
         var res = db.currentOp();
         output = JSON.stringify(res) + "\n";
-        fs.writeFile("/tmp/pt/collected/currentOpAll.json", (output), {flag: 'a'}, function(err) {
-            if(err) print('error', err);
-        });
+        writeMe(filename='currentOpAll.json',output=output,my_flag='a');
         sleep(interval);
     }
     print("Continuous collection done.")
@@ -53,114 +49,78 @@ percona_collector.collectCurrentOp = function(count=1,interval=1000) {
 
 percona_collector.pbmCollector = function() {
     var pbm_backups = db.getSiblingDB('admin').pbmBackups.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmBackupsCollection.json",  JSON.stringify(pbm_backups), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmBackupsCollection.json',output=output,my_flag='w+');
 
     var pbm_agents = db.getSiblingDB('admin').pbmAgents.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmAgentsCollection.json", JSON.stringify(pbm_agents), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmAgentsCollection.json',output=output,my_flag='w+');
 
     var pbm_config = db.getSiblingDB('admin').pbmConfig.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmConfigCollection.json", JSON.stringify(pbm_config), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmConfigCollection.json',output=output,my_flag='w+');
 
     var pbm_cmd = db.getSiblingDB('admin').pbmCmd.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmCmdCollection.json", JSON.stringify(pbm_cmd), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmCmdCollection.json',output=output,my_flag='w+');
 
     var pbm_lock = db.getSiblingDB('admin').pbmLock.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmLockCollection.json", JSON.stringify(pbm_lock), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmLockCollection.json',output=output,my_flag='w+')
 
     var pbm_lockop = db.getSiblingDB('admin').pbmLockOp.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmLockOpCollection.json", JSON.stringify(pbm_lockop), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmLockOpCollection.json',output=output,my_flag='w+')
 
     var pbm_log = db.getSiblingDB('admin').pbmLog.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmLogCollection.json", JSON.stringify(pbm_log), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmLogCollection.json',output=output,my_flag='w+')
 
     var pbm_oplog = db.getSiblingDB('admin').pbmOpLog.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmOpLogCollection.json", JSON.stringify(pbm_oplog), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmOpLogCollection.json',output=output,my_flag='w+')
 
     var pbm_pitrchunks = db.getSiblingDB('admin').pbmPITRChunks.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbm_PITRChunksCollection.json", JSON.stringify(pbm_pitrchunks), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbm_PITRChunksCollection.json',output=output,my_flag='w+')
 
     var pbm_pitrstate = db.getSiblingDB('admin').pbmPITRState.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmPITRStateCollection.json", JSON.stringify(pbm_pitrstate), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmPITRStateCollection.json',output=output,my_flag='w+');
 
     var pbm_status = db.getSiblingDB('admin').pbmStatus.find().toArray();
-    fs.writeFile("/tmp/pt/collected/pbmStatusCollection.json", JSON.stringify(pbm_status), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='pbmStatusCollection.json',output=output,my_flag='w+');
 }
 
 percona_collector.hostInfo = function() {
     var output = db.hostInfo();
-    fs.writeFile("/tmp/pt/collected/hostInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='hostInfo.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.getServerStatus = function() {
     var output = db.serverStatus();
-    fs.writeFile("/tmp/pt/collected/serverStatus.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='serverStatus.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.getCurrentOp = function() {
     var output = db.adminCommand({ currentOp: true });
-    fs.writeFile("/tmp/pt/collected/currentOp.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='currentOp.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.parameterInfo = function() {
     var output = db.adminCommand({ getParameter: '*' });
-    fs.writeFile("/tmp/pt/collected/getParameter.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='getParameter.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.startupOptions = function() {
     var output = db.adminCommand({ getCmdLineOpts: 1 });
-    fs.writeFile("/tmp/pt/collected/cmdLineOpts.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='cmdLineOpts.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.replicaSetInfo = function() {
     var output = rs.status();
-    fs.writeFile("/tmp/pt/collected/rsStatus.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='rsStatus.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.replicationConfiguration = function() {
     var output = rs.conf();
-    fs.writeFile("/tmp/pt/collected/rsConf.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='rsConf.json',output=output,my_flag='w+');
     return output;
 }
 
@@ -170,35 +130,26 @@ percona_collector.shardInfo = function(bool) {
         printjson("not a shard cluster!");
     } else {
         var shards = sh.status(bool);
-        fs.writeFile("/tmp/pt/collected/shStatus.json", JSON.stringify(shards), {flag: 'w+'}, function(err) {
-            if(err) print('error', err);
-        });
+        writeMe(filename='shStatus.json',output=output,my_flag='w+');
     }
     return shards;
 }
 
 percona_collector.getDbReplicationInfo = function() {
     var output = db.getReplicationInfo();
-    fs.writeFile("/tmp/pt/collected/getReplicationInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='getReplicationInfo.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.getRsReplicationInfo = function() {
     var output = rs.printReplicationInfo();
-    // fs.writeFile("/tmp/pt/collected/printReplicationInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-    //     if(err) print('error', err);
-    // });
-    writeMe(filename='printReplicationInfo.json',output=output,my_flag='w+')
+    writeMe(filename='printReplicationInfo.json',output=output,my_flag='w+');
     return output;
 }
 
 percona_collector.getRsSecondaryReplicationInfo = function() {
     var output = rs.printSecondaryReplicationInfo();
-    fs.writeFile("/tmp/pt/collected/printSecondaryReplicationInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    writeMe(filename='printSecondaryReplicationInfo.json',output=output,my_flag='w+');
     return output;
 }
 
@@ -220,5 +171,7 @@ percona_collector.clusterWideInfo = function() {
 
 percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1) {
     var mydb = db.getSiblingDB(dbName);
-    return mydb.runCommand({ collStats: collName, scale: scaleFactor });
+    var output = mydb.runCommand({ collStats: collName, scale: scaleFactor });
+    writeMe(filename='collectionStats.json',output=output,my_flag='w+');
+    return output;
 }
