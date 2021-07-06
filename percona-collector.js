@@ -209,3 +209,8 @@ percona_collector.clusterWideInfo = function() {
     print("Sharded Collections: " + shardedCollCount);
     print("Unsharded Collections: " + (collCount - shardedCollCount) );
 }
+
+percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1) {
+    var mydb = db.getSiblingDB(dbName);
+    return mydb.runCommand({ collStats: collName, scale: scaleFactor });
+}
