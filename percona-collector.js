@@ -10,6 +10,13 @@ function getDatabases() {
     return db.adminCommand({ listDatabases: 1 }).databases.map( function(doc) { return doc.name });
 }
 
+function writeMe(filename='',output='',my_flag='') {
+    outFile=("/tmp/pt/collected/" + filename);
+    fs.writeFile(outFile, (output), {flag: my_flag}, function(err) {
+        if(err) print('error', err);
+    });
+}
+
 percona_collector.collectServerStatus = function(count=1,interval=1000) {
     print("Continuous collection of serverStatus metrics in progress...")
     fs.rm("/tmp/pt/collected/serverStatusAll.json", { force: true }, function(err) {
@@ -180,9 +187,10 @@ percona_collector.getDbReplicationInfo = function() {
 
 percona_collector.getRsReplicationInfo = function() {
     var output = rs.printReplicationInfo();
-    fs.writeFile("/tmp/pt/collected/printReplicationInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
-        if(err) print('error', err);
-    });
+    // fs.writeFile("/tmp/pt/collected/printReplicationInfo.json", JSON.stringify(output), {flag: 'w+'}, function(err) {
+    //     if(err) print('error', err);
+    // });
+    writeMe(filename='printReplicationInfo.json',output=output,my_flag='w+')
     return output;
 }
 
