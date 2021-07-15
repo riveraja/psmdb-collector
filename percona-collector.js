@@ -192,7 +192,10 @@ percona_collector.summarize = function() {
                                     "\n+--------------------------------------------+"));
         print(db.serverStatus({repl:1}).repl)
     } else {
-        
+        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                    "\n| Sharding Statistics                     |" +
+                                    "\n+--------------------------------------------+"));
+        print(db.serverStatus().shardingStatistics)
     }
 
     Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
