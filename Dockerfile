@@ -12,8 +12,12 @@ RUN apt-get update && \
     wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - && \
     echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list && \
     apt-get update && \
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
+    apt-get install -y nodejs npm && \
     apt-get install -y mongodb-mongosh && \
     mkdir /root/psmdb-collector
-COPY ./percona-collector.js /root/psmdb-collector/
+COPY ./percona-collector.js /root/psmdb-collector/ && \
+    ./package.json /root/psmdb-collector/
 WORKDIR /root/psmdb-collector/
+RUN npm install
 CMD ["bash"]

@@ -7,6 +7,7 @@ This repository is a data collection script for MongoDB deployments used with th
 
 * [MongoDB Shell](https://docs.mongodb.com/mongodb-shell/)
 * [Docker](https://www.docker.com/) [optional]
+* [NodeJS](https://nodejs.org/en/)
 
 
 
@@ -24,7 +25,10 @@ This repository is a data collection script for MongoDB deployments used with th
     ```
     mkdir /tmp/pt/collected/
     ```
-
+4. Install NodeJS v14 (LTS) and run
+    ```
+    npm install
+    ```
 4. Login to mongodb and load the script
 
     ```

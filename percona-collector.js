@@ -1,4 +1,8 @@
-const fs = require('fs');
+const localReq = require('module').createRequire(__filename);
+const fs = localReq('fs');
+const _ = localReq('lodash');
+const Console = localReq('console');
+const Chalk = localReq('chalk');
 
 var percona_collector = {};
 
@@ -153,6 +157,8 @@ percona_collector.getRsSecondaryReplicationInfo = function() {
     return output;
 }
 
+
+// TODO
 percona_collector.clusterWideInfo = function() {
     var dbList = getDatabases();
     var collCount = 0;
@@ -161,8 +167,6 @@ percona_collector.clusterWideInfo = function() {
         collCount += t;
     }
     var shardedCollCount = db.getSiblingDB('config').chunks.aggregate({$group:{_id:"$ns",count:{$sum:1}}}).toArray().length;
-    
-    // TODO
     print("Database count: " + dbList.length);
     print("Collection count: " + collCount);
     print("Sharded Collections: " + shardedCollCount);
@@ -174,4 +178,25 @@ percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1
     var output = mydb.runCommand({ collStats: collName, scale: scaleFactor });
     writeMe(filename='collectionStats.json',output=output,my_flag='w+');
     return output;
+}
+
+percona_collector.summarize = function() {
+    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                "\n| Concurrent Transactions Available Tickets  |" +
+                                "\n+--------------------------------------------+"));
+    Console.table(db.serverStatus().wiredTiger.concurrentTransactions);
+
+    if (!isMongos()) {
+        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                    "\n| Replication Statistics                     |" +
+                                    "\n+--------------------------------------------+"));
+        print(db.serverStatus({repl:1}).repl)
+    } else {
+        
+    }
+
+    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                "\n| Server Status GlobalLocks                  |" +
+                                "\n+--------------------------------------------+"));
+    print(db.serverStatus().globalLock);
 }
