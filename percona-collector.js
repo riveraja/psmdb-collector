@@ -181,10 +181,13 @@ percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1
 }
 
 percona_collector.summarize = function() {
-    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                "\n| Concurrent Transactions Available Tickets  |" +
-                                "\n+--------------------------------------------+"));
-    Console.table(db.serverStatus().wiredTiger.concurrentTransactions);
+
+    if (!isMongos()) {
+        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                    "\n| Concurrent Transactions Available Tickets  |" +
+                                    "\n+--------------------------------------------+"));
+        Console.table(db.serverStatus().wiredTiger.concurrentTransactions);
+    }
 
     if (!isMongos()) {
         Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
@@ -193,7 +196,7 @@ percona_collector.summarize = function() {
         print(db.serverStatus({repl:1}).repl)
     } else {
         Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                    "\n| Sharding Statistics                     |" +
+                                    "\n| Sharding Statistics                        |" +
                                     "\n+--------------------------------------------+"));
         print(db.serverStatus().shardingStatistics)
     }
