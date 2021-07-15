@@ -16,7 +16,7 @@ RUN apt-get update && \
     apt-get install -y nodejs npm && \
     apt-get install -y mongodb-mongosh && \
     mkdir /root/psmdb-collector
-COPY pakage.json percona-collector.js /root/psmdb-collector/
+COPY package.json percona-collector.js /root/psmdb-collector/
 WORKDIR /root/psmdb-collector/
 RUN npm install
 CMD ["bash"]
