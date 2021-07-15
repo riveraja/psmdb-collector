@@ -201,8 +201,10 @@ percona_collector.summarize = function() {
         print(db.serverStatus().shardingStatistics)
     }
 
-    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                "\n| Server Status GlobalLocks                  |" +
-                                "\n+--------------------------------------------+"));
-    print(db.serverStatus().globalLock);
+    if (!isMongos()) {
+        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                    "\n| Server Status GlobalLocks                  |" +
+                                    "\n+--------------------------------------------+"));
+        print(db.serverStatus().globalLock)
+    }
 }
