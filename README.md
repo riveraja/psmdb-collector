@@ -105,5 +105,6 @@ Loading file: percona-collector.js
 - percona_collector.clusterWideInfo() [TODO]
 - percona_collector.collectionStats()
 - percona_collector.summarize()
+- percona_collector.schemaInfo()
 
 Generated files will be stored in the host volume mount path. Ensure that docker can read/write to this directory in the host path.
