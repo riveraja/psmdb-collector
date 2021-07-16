@@ -1,6 +1,6 @@
 const localReq = require('module').createRequire(__filename);
 const fs = localReq('fs');
-const _ = localReq('lodash');
+const ld = localReq('lodash');
 const Console = localReq('console');
 const Chalk = localReq('chalk');
 
@@ -207,4 +207,26 @@ percona_collector.summarize = function() {
                                     "\n+--------------------------------------------+"));
         print(db.serverStatus().globalLock)
     }
+
+}
+
+percona_collector.schemaInfo = async function(myObj=[]) {
+    const oneRow = await db.getSiblingDB(myObj[0]).getCollection(myObj[1]).findOne();
+    const allIndexes = await db.getSiblingDB(myObj[0]).getCollection(myObj[1]).getIndexes();
+    const allStats = await db.getSiblingDB(myObj[0]).getCollection(myObj[1]).stats();
+
+    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                "\n| Sample data                                |" +
+                                "\n+--------------------------------------------+"));
+    Console.log(oneRow);
+
+    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                "\n| All Indexes for collection                 |" +
+                                "\n+--------------------------------------------+"));
+    Console.log(allIndexes);
+
+    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
+                                "\n| Collection statistics                      |" +
+                                "\n+--------------------------------------------+"));
+    Console.log(allStats);
 }
