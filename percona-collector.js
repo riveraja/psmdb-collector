@@ -183,28 +183,36 @@ percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1
 percona_collector.summarize = function() {
 
     if (!isMongos()) {
-        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                    "\n| Concurrent Transactions Available Tickets  |" +
-                                    "\n+--------------------------------------------+"));
+        Console.log(Chalk.red.bold(
+            "\n+--------------------------------------------+" +
+            "\n| Concurrent Transactions Available Tickets  |" +
+            "\n+--------------------------------------------+"
+            ));
         Console.table(db.serverStatus().wiredTiger.concurrentTransactions);
     }
 
     if (!isMongos()) {
-        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                    "\n| Replication Statistics                     |" +
-                                    "\n+--------------------------------------------+"));
+        Console.log(Chalk.red.bold(
+            "\n+--------------------------------------------+" +
+            "\n| Replication Statistics                     |" +
+            "\n+--------------------------------------------+"
+            ));
         print(db.serverStatus({repl:1}).repl)
     } else {
-        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                    "\n| Sharding Statistics                        |" +
-                                    "\n+--------------------------------------------+"));
+        Console.log(Chalk.red.bold(
+            "\n+--------------------------------------------+" +
+            "\n| Sharding Statistics                        |" +
+            "\n+--------------------------------------------+"
+            ));
         print(db.serverStatus().shardingStatistics)
     }
 
     if (!isMongos()) {
-        Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                    "\n| Server Status GlobalLocks                  |" +
-                                    "\n+--------------------------------------------+"));
+        Console.log(Chalk.red.bold(
+            "\n+--------------------------------------------+" +
+            "\n| Server Status GlobalLocks                  |" +
+            "\n+--------------------------------------------+"
+            ));
         print(db.serverStatus().globalLock)
     }
 
@@ -215,18 +223,24 @@ percona_collector.schemaInfo = async function(myObj=[]) {
     const allIndexes = await db.getSiblingDB(myObj[0]).getCollection(myObj[1]).getIndexes();
     const allStats = await db.getSiblingDB(myObj[0]).getCollection(myObj[1]).stats();
 
-    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                "\n| Sample data                                |" +
-                                "\n+--------------------------------------------+"));
+    Console.log(Chalk.red.bold(
+        "\n+--------------------------------------------+" +
+        "\n| Sample data                                |" +
+        "\n+--------------------------------------------+"
+        ));
     Console.log(oneRow);
 
-    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                "\n| All Indexes for collection                 |" +
-                                "\n+--------------------------------------------+"));
+    Console.log(Chalk.red.bold(
+        "\n+--------------------------------------------+" +
+        "\n| All Indexes for collection                 |" +
+        "\n+--------------------------------------------+"
+        ));
     Console.log(allIndexes);
 
-    Console.log(Chalk.red.bold( "\n+--------------------------------------------+" +
-                                "\n| Collection statistics                      |" +
-                                "\n+--------------------------------------------+"));
+    Console.log(Chalk.red.bold(
+        "\n+--------------------------------------------+" +
+        "\n| Collection statistics                      |" +
+        "\n+--------------------------------------------+"
+        ));
     Console.log(allStats);
 }
