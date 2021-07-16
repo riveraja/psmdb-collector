@@ -230,3 +230,5 @@ percona_collector.schemaInfo = async function(myObj=[]) {
                                 "\n+--------------------------------------------+"));
     Console.log(allStats);
 }
+
+p
