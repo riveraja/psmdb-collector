@@ -28,8 +28,7 @@ percona_collector.collectServerStatus = function(count=1,interval=1000) {
     });
     var output = '';
     for (let step =0; step < count; step++) {
-        var res = db.serverStatus();
-        output = JSON.stringify(res) + "\n";
+        var output = db.serverStatus();
         writeMe(filename='serverStatusAll.json',output=output,my_flag='a');
         sleep(interval);
     }
@@ -43,8 +42,7 @@ percona_collector.collectCurrentOp = function(count=1,interval=1000) {
     });
     var output = '';
     for (let step =0; step < count; step++) {
-        var res = db.currentOp();
-        output = JSON.stringify(res) + "\n";
+        var output = db.currentOp();
         writeMe(filename='currentOpAll.json',output=output,my_flag='a');
         sleep(interval);
     }
