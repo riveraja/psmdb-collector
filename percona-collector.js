@@ -3,6 +3,7 @@ const fs = localReq('fs');
 const ld = localReq('lodash');
 const Console = localReq('console');
 const Chalk = localReq('chalk');
+const Path = "/tmp/pt/collected/";
 
 var percona_collector = {};
 
@@ -15,7 +16,7 @@ function getDatabases() {
 }
 
 function writeMe(filename='',output='',my_flag='') {
-    outFile=("/tmp/pt/collected/" + filename);
+    outFile=(Path + filename);
     fs.writeFile(outFile, JSON.stringify(output), {flag: my_flag}, function(err) {
         if(err) print('error', err);
     });
@@ -23,7 +24,7 @@ function writeMe(filename='',output='',my_flag='') {
 
 percona_collector.collectServerStatus = function(count=1,interval=1000) {
     print("Continuous collection of serverStatus metrics in progress...")
-    fs.rm("/tmp/pt/collected/serverStatusAll.json", { force: true }, function(err) {
+    fs.rm(Path + "serverStatusAll.json", { force: true }, function(err) {
         if(err) print('error', err);
     });
     var output = '';
@@ -37,7 +38,7 @@ percona_collector.collectServerStatus = function(count=1,interval=1000) {
 
 percona_collector.collectCurrentOp = function(count=1,interval=1000) {
     print("Continuous collection of currentOp metrics in progress...");
-    fs.rm("/tmp/pt/collected/currentOpAll.json", { force: true }, function(err) {
+    fs.rm(Path + "currentOpAll.json", { force: true }, function(err) {
         if(err) print('error', err);
     });
     var output = '';
