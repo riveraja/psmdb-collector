@@ -1,8 +1,9 @@
-const localReq = require('module').createRequire(__filename);
-const fs = localReq('fs');
-const ld = localReq('lodash');
-const Console = localReq('console');
-const Chalk = localReq('chalk');
+const fs = require('fs');
+const Console = require('console');
+const Chalk = require('chalk');
+// const localReq = require('module').createRequire(__filename);
+// const ld = localReq('lodash');
+
 const Path = "/tmp/pt/collected/";
 
 var percona_collector = {};
