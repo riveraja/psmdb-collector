@@ -1,8 +1,6 @@
 const fs = require('fs');
 const Console = require('console');
 const Chalk = require('chalk');
-// const localReq = require('module').createRequire(__filename);
-// const ld = localReq('lodash');
 
 const Path = "/tmp/pt/collected/";
 
