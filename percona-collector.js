@@ -2,12 +2,20 @@ const fs = require('fs');
 const Console = require('console');
 const Chalk = require('chalk');
 
-const Path = "/tmp/pt/collected/";
+const Path = "samples/";
 
 var percona_collector = {};
 
 function isMongos() {
-    return (db.isMaster().msg == "isdbgrid");
+    if ((typeof db.isMaster().msg) !== 'undefined') {
+        return true
+    }
+}
+
+function isReplicaset() {
+    if ((typeof db.isMaster().primary) === 'string') {
+        return true
+    }
 }
 
 function getDatabases() {
@@ -16,9 +24,10 @@ function getDatabases() {
 
 function writeMe(filename='',output='',my_flag='') {
     outFile=(Path + filename);
-    fs.writeFile(outFile, JSON.stringify(output), {flag: my_flag}, function(err) {
-        if(err) print('error', err);
-    });
+    fs.writeFileSync(outFile, JSON.stringify(output), {flag: my_flag});
+    // fs.writeFile(outFile, JSON.stringify(output), {flag: my_flag}, function(err) {
+    //     if(err) print('error', err);
+    // });
 }
 
 percona_collector.collectServerStatus = function(count=1,interval=1000) {
@@ -180,7 +189,7 @@ percona_collector.collectionStats = function(dbName='',collName='',scaleFactor=1
 
 percona_collector.summarize = function() {
 
-    if (!isMongos()) {
+    if (isMongos() || isReplicaset()) {
         Console.log(Chalk.red.bold(
             "\n+--------------------------------------------+" +
             "\n| Concurrent Transactions Available Tickets  |" +
@@ -189,14 +198,16 @@ percona_collector.summarize = function() {
         Console.table(db.serverStatus().wiredTiger.concurrentTransactions);
     }
 
-    if (!isMongos()) {
+    if (isReplicaset() && !isMongos()) {
         Console.log(Chalk.red.bold(
             "\n+--------------------------------------------+" +
             "\n| Replication Statistics                     |" +
             "\n+--------------------------------------------+"
             ));
         print(db.serverStatus({repl:1}).repl)
-    } else {
+    }
+
+    if (isMongos() && !isReplicaset()) {
         Console.log(Chalk.red.bold(
             "\n+--------------------------------------------+" +
             "\n| Sharding Statistics                        |" +
