@@ -130,9 +130,13 @@ percona_collector.replicaSetInfo = function() {
 }
 
 percona_collector.replicationConfiguration = function() {
-    var output = rs.conf();
-    writeMe(filename='rsConf.json',output=output,my_flag='w+');
-    return output;
+    if (!isReplicaset()) {
+        printjson("not a replicaset");
+    } else {
+        var output = rs.conf();
+        writeMe(filename='rsConf.json',output=output,my_flag='w+');
+        return output;
+    }
 }
 
 percona_collector.shardInfo = function(bool) {
@@ -142,8 +146,8 @@ percona_collector.shardInfo = function(bool) {
     } else {
         var shards = sh.status(bool);
         writeMe(filename='shStatus.json',output=output,my_flag='w+');
+        return shards;
     }
-    return shards;
 }
 
 percona_collector.getDbReplicationInfo = function() {
