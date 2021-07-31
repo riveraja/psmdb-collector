@@ -124,9 +124,13 @@ percona_collector.startupOptions = function() {
 }
 
 percona_collector.replicaSetInfo = function() {
-    var output = rs.status();
-    writeMe(filename='rsStatus.json',output=output,my_flag='w+');
-    return output;
+    if (!isReplicaset()) {
+        printjson("not a replicaset");
+    } else {
+        var output = rs.status();
+        writeMe(filename='rsStatus.json',output=output,my_flag='w+');
+        return output;
+    }
 }
 
 percona_collector.replicationConfiguration = function() {
@@ -140,7 +144,6 @@ percona_collector.replicationConfiguration = function() {
 }
 
 percona_collector.shardInfo = function(bool) {
-    var shards = '';
     if (!isMongos()) {
         printjson("not a shard cluster!");
     } else {
@@ -151,21 +154,33 @@ percona_collector.shardInfo = function(bool) {
 }
 
 percona_collector.getDbReplicationInfo = function() {
-    var output = db.getReplicationInfo();
-    writeMe(filename='getReplicationInfo.json',output=output,my_flag='w+');
-    return output;
+    if (!isReplicaset()) {
+        printjson("not a replicaset");
+    } else {
+        var output = db.getReplicationInfo();
+        writeMe(filename='getReplicationInfo.json',output=output,my_flag='w+');
+        return output;
+    }
 }
 
 percona_collector.getRsReplicationInfo = function() {
-    var output = rs.printReplicationInfo();
-    writeMe(filename='printReplicationInfo.json',output=output,my_flag='w+');
-    return output;
+    if (!isReplicaset()) {
+        printjson("not a replicaset");
+    } else {
+        var output = rs.printReplicationInfo();
+        writeMe(filename='printReplicationInfo.json',output=output,my_flag='w+');
+        return output;
+    }
 }
 
 percona_collector.getRsSecondaryReplicationInfo = function() {
-    var output = rs.printSecondaryReplicationInfo();
-    writeMe(filename='printSecondaryReplicationInfo.json',output=output,my_flag='w+');
-    return output;
+    if (!isReplicaset()) {
+        printjson("not a replicaset");
+    } else {
+        var output = rs.printSecondaryReplicationInfo();
+        writeMe(filename='printSecondaryReplicationInfo.json',output=output,my_flag='w+');
+        return output;
+    }
 }
 
 
