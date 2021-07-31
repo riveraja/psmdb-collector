@@ -58,39 +58,39 @@ percona_collector.collectCurrentOp = function(count=1,interval=1000) {
     print("Continuous collection done.")
 }
 
-percona_collector.pbmCollector = function() {
-    var pbm_backups = db.getSiblingDB('admin').pbmBackups.find().toArray();
-    writeMe(filename='pbmBackupsCollection.json',output=output,my_flag='w+');
+percona_collector.pbmCollector = async function() {
+    var pbm_backups = await db.getSiblingDB('admin').pbmBackups.find().toArray();
+    writeMe(filename='pbmBackupsCollection.json',output=pbm_backups,my_flag='w+');
 
-    var pbm_agents = db.getSiblingDB('admin').pbmAgents.find().toArray();
-    writeMe(filename='pbmAgentsCollection.json',output=output,my_flag='w+');
+    var pbm_agents = await db.getSiblingDB('admin').pbmAgents.find().toArray();
+    writeMe(filename='pbmAgentsCollection.json',output=pbm_agents,my_flag='w+');
 
-    var pbm_config = db.getSiblingDB('admin').pbmConfig.find().toArray();
-    writeMe(filename='pbmConfigCollection.json',output=output,my_flag='w+');
+    var pbm_config = await db.getSiblingDB('admin').pbmConfig.find().toArray();
+    writeMe(filename='pbmConfigCollection.json',output=pbm_config,my_flag='w+');
 
-    var pbm_cmd = db.getSiblingDB('admin').pbmCmd.find().toArray();
-    writeMe(filename='pbmCmdCollection.json',output=output,my_flag='w+');
+    var pbm_cmd = await db.getSiblingDB('admin').pbmCmd.find().toArray();
+    writeMe(filename='pbmCmdCollection.json',output=pbm_cmd,my_flag='w+');
 
-    var pbm_lock = db.getSiblingDB('admin').pbmLock.find().toArray();
-    writeMe(filename='pbmLockCollection.json',output=output,my_flag='w+')
+    var pbm_lock = await db.getSiblingDB('admin').pbmLock.find().toArray();
+    writeMe(filename='pbmLockCollection.json',output=pbm_lock,my_flag='w+')
 
-    var pbm_lockop = db.getSiblingDB('admin').pbmLockOp.find().toArray();
-    writeMe(filename='pbmLockOpCollection.json',output=output,my_flag='w+')
+    var pbm_lockop = await db.getSiblingDB('admin').pbmLockOp.find().toArray();
+    writeMe(filename='pbmLockOpCollection.json',output=pbm_lockop,my_flag='w+')
 
-    var pbm_log = db.getSiblingDB('admin').pbmLog.find().toArray();
-    writeMe(filename='pbmLogCollection.json',output=output,my_flag='w+')
+    var pbm_log = await db.getSiblingDB('admin').pbmLog.find().toArray();
+    writeMe(filename='pbmLogCollection.json',output=pbm_log,my_flag='w+')
 
-    var pbm_oplog = db.getSiblingDB('admin').pbmOpLog.find().toArray();
-    writeMe(filename='pbmOpLogCollection.json',output=output,my_flag='w+')
+    var pbm_oplog = await db.getSiblingDB('admin').pbmOpLog.find().toArray();
+    writeMe(filename='pbmOpLogCollection.json',output=pbm_oplog,my_flag='w+')
 
-    var pbm_pitrchunks = db.getSiblingDB('admin').pbmPITRChunks.find().toArray();
-    writeMe(filename='pbm_PITRChunksCollection.json',output=output,my_flag='w+')
+    var pbm_pitrchunks = await db.getSiblingDB('admin').pbmPITRChunks.find().toArray();
+    writeMe(filename='pbm_PITRChunksCollection.json',output=pbm_pitrchunks,my_flag='w+')
 
-    var pbm_pitrstate = db.getSiblingDB('admin').pbmPITRState.find().toArray();
-    writeMe(filename='pbmPITRStateCollection.json',output=output,my_flag='w+');
+    var pbm_pitrstate = await db.getSiblingDB('admin').pbmPITRState.find().toArray();
+    writeMe(filename='pbmPITRStateCollection.json',output=pbm_pitrstate,my_flag='w+');
 
-    var pbm_status = db.getSiblingDB('admin').pbmStatus.find().toArray();
-    writeMe(filename='pbmStatusCollection.json',output=output,my_flag='w+');
+    var pbm_status = await db.getSiblingDB('admin').pbmStatus.find().toArray();
+    writeMe(filename='pbmStatusCollection.json',output=pbm_status,my_flag='w+');
 }
 
 percona_collector.hostInfo = function() {
