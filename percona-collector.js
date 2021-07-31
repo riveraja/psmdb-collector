@@ -25,9 +25,6 @@ function getDatabases() {
 function writeMe(filename='',output='',my_flag='') {
     outFile=(Path + filename);
     fs.writeFileSync(outFile, JSON.stringify(output), {flag: my_flag});
-    // fs.writeFile(outFile, JSON.stringify(output), {flag: my_flag}, function(err) {
-    //     if(err) print('error', err);
-    // });
 }
 
 percona_collector.collectServerStatus = function(count=1,interval=1000) {
